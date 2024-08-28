@@ -1,5 +1,6 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/Whatsapp_Screen.dart';
 import 'package:flutter_basic/list_screen.dart';
 
 //importing scaffold widget from another file
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(primaryColor: Colors.green), //theme data
         // home: HomeScreen(), //calling HomeScreen class as home
         // home: NewScreen());
-        home: ListScreen());
+        home: WhatsappScreen());
   }
 }
 
