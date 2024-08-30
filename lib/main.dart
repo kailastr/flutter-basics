@@ -16,10 +16,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(primaryColor: Colors.green), //theme data
-        // home: HomeScreen(), //calling HomeScreen class as home
-        // home: NewScreen());
-        home: WhatsappScreen());
+      theme: ThemeData(primaryColor: Colors.green), //theme data
+      // home: HomeScreen(), //calling HomeScreen class as home
+      // home: NewScreen());
+      home: IndexPage(),
+      routes: {
+        'ExpandedContainer_screen': (context) {
+          return ExpandedWidget();
+        },
+        'Btn_screen': (context) {
+          return ColumnScreen();
+        },
+        'Input_screen': (context) {
+          return InputScreen();
+        }
+      },
+    );
   }
 }
 
@@ -30,30 +42,47 @@ class IndexPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: Text('Index Page'),
+      ),
       body: SafeArea(
           child: Container(
         decoration: const BoxDecoration(),
         padding: const EdgeInsets.only(left: 20.0, right: 20.0),
         margin: const EdgeInsets.only(top: 20),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Wrap( 
+          spacing: 8, //horizontal spacing
+          runSpacing: 8, //vertical spacing
           children: [
-            Text(
-              'Home',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text(
-              'Container',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text(
-              'Expanded',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text(
-              'Input Field',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            )
+            ElevatedButton(
+                //one method of navigating
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return HomeScreen();
+                  }));
+                },
+                child: Text('Text')),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('ExpandedContainer_screen');
+                },
+                child: Text('Expanded')),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('Btn_screen');
+                },
+                child: Text('Buttons')),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('Input_screen');
+                },
+                child: Text('Input'))
           ],
         ),
       )),
