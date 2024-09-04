@@ -1,12 +1,21 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_basic/ListNavigation_screen.dart';
+import 'package:flutter_basic/SharedPreferences_screen.dart';
+import 'package:flutter_basic/Testing/Rest_GET_screen.dart';
 import 'package:flutter_basic/Whatsapp_Screen.dart';
 import 'package:flutter_basic/list_screen.dart';
 
 //importing scaffold widget from another file
 import 'package:flutter_basic/screen_New.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+//variable for shared_preferences instance
+late SharedPreferences sharedPreferences;
+
+Future<void> main() async {
+  // sharedPreferences = await SharedPreferences.getInstance();
   runApp(MyApp());
 }
 
@@ -29,6 +38,24 @@ class MyApp extends StatelessWidget {
         },
         'Input_screen': (context) {
           return InputScreen();
+        },
+        'Whatsapp_screen': (context) {
+          return WhatsappScreen();
+        },
+        'List_screen': (context) {
+          return ListScreen();
+        },
+        'StateCount_screen': (context) {
+          return NewScreen();
+        },
+        'Testing_Screen': (context) {
+          return ListnavigationScreen();
+        },
+        'sharedPreferences_screen': (context) {
+          return SharedpreferencesScreen();
+        },
+        'rest_get': (context) {
+          return RestGetScreen();
         }
       },
     );
@@ -45,7 +72,8 @@ class IndexPage extends StatelessWidget {
       appBar: AppBar(
         leading: BackButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            //to pop from the entire app
+            SystemNavigator.pop();
           },
         ),
         title: Text('Index Page'),
@@ -55,34 +83,186 @@ class IndexPage extends StatelessWidget {
         decoration: const BoxDecoration(),
         padding: const EdgeInsets.only(left: 20.0, right: 20.0),
         margin: const EdgeInsets.only(top: 20),
-        child: Wrap( 
-          spacing: 8, //horizontal spacing
-          runSpacing: 8, //vertical spacing
+        child: ListView(
           children: [
-            ElevatedButton(
-                //one method of navigating
-                onPressed: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return HomeScreen();
-                  }));
-                },
-                child: Text('Text')),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed('ExpandedContainer_screen');
-                },
-                child: Text('Expanded')),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed('Btn_screen');
-                },
-                child: Text('Buttons')),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed('Input_screen');
-                },
-                child: Text('Input'))
+            // basic widgets
+            Center(
+              child: Text(
+                'Basic Widgets',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.amber[900]),
+              ),
+            ),
+            Center(
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    color: Colors.amber[100],
+                    border: Border.all(width: 1),
+                    borderRadius: BorderRadius.circular(5)),
+                //used instead of row to avoid overflow
+                child: Wrap(
+                  spacing: 8, //horizontal spacing
+                  runSpacing: 8, //vertical spacing
+                  children: [
+                    ElevatedButton(
+                        //one method of navigating
+                        onPressed: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return HomeScreen();
+                          }));
+                        },
+                        child: Text('Text')),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushNamed('ExpandedContainer_screen');
+                        },
+                        child: Text('Expanded')),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('Btn_screen');
+                        },
+                        child: Text('Buttons')),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('Input_screen');
+                        },
+                        child: Text('Input'))
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            //Basic scaffolds
+            Center(
+              child: Text(
+                'Basic Scaffolds',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue[900]),
+              ),
+            ),
+            Center(
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1),
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.blue[100]),
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('Whatsapp_screen');
+                        },
+                        child: Text('Whatsapp')),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('List_screen');
+                        },
+                        child: Text('List')),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('StateCount_screen');
+                        },
+                        child: Text('State')),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushNamed("sharedPreferences_screen");
+                        },
+                        child: Text('Shared Preferences'))
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            //Learning section
+            Center(
+              child: Text(
+                'Learning',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.deepPurple),
+              ),
+            ),
+            Center(
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1),
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.deepPurple[300]),
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                WidgetStatePropertyAll(Colors.black)),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('Testing_Screen');
+                        },
+                        child: Text(
+                          'Under Dev',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ))
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            //Testing section
+            Center(
+              child: Text(
+                'REST APIs ',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green[800]),
+              ),
+            ),
+            Center(
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1),
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.green),
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                WidgetStatePropertyAll(Colors.white)),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('rest_get');
+                        },
+                        child: Text(
+                          'GET',
+                          style: TextStyle(
+                              color: Colors.green, fontWeight: FontWeight.bold),
+                        ))
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       )),

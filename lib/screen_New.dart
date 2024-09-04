@@ -13,6 +13,10 @@ class _NewScreenState extends State<NewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepPurple[100],
+        leading: BackButton(),
+      ),
       backgroundColor: Colors.deepPurple[100],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
